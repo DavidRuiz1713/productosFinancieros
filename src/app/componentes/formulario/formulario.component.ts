@@ -10,7 +10,6 @@ import {
 import { DatosSeleccionadosService } from '../../core/servicios/datos-seleccionados.service';
 import { Router } from '@angular/router';
 import { NotificacionComponent } from '../notificacion/notificacion.component';
-import { consultarProductoValidator } from './validaciones';
 
 @Component({
   selector: 'app-formulario',
@@ -48,11 +47,11 @@ export class FormularioComponent {
   }
 
   formularioProducto = new FormGroup({
-    id: new FormControl(
-      '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(10)],
-      [consultarProductoValidator(this.productosService)], // Validador asíncrono
-    ),
+    id: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3),
+      Validators.maxLength(10),
+    ]),
     name: new FormControl('', [
       Validators.required,
       Validators.minLength(5),
@@ -136,16 +135,18 @@ export class FormularioComponent {
   }
 
   async consultarProducto(id: string) {
-    this.productosService.consultarIdProducto(id).subscribe({
-      next: (existe: boolean) => {
-        this.productoExiste = existe;
-        console.log('verificar el producto:', this.productoExiste);
-      },
-      error: (err) => {
-        console.error('Error al verificar el producto:', err);
-        this.productoExiste = null; // Si ocurre un error, puedes manejarlo aquí
-      },
-    });
+    if (id != '') {
+      this.productosService.consultarIdProducto(id).subscribe({
+        next: (existe: boolean) => {
+          this.productoExiste = existe;
+          console.log('verificar el producto:', this.productoExiste);
+        },
+        error: (err) => {
+          console.error('Error al verificar el producto:', err);
+          this.productoExiste = null;
+        },
+      });
+    }
   }
 
   borrarFormulario(accion: string): void {
