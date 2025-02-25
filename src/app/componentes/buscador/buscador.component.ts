@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './buscador.component.html',
-  styleUrl: './buscador.component.less',
+  styleUrls: ['./buscador.component.less'],
 })
 export class BuscadorComponent {
   @Output() valueChange = new EventEmitter<string>();

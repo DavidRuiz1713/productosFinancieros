@@ -16,7 +16,7 @@ import { NotificacionComponent } from '../notificacion/notificacion.component';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, NotificacionComponent],
   templateUrl: './formulario.component.html',
-  styleUrl: './formulario.component.less',
+  styleUrls: ['./formulario.component.less'],
 })
 export class FormularioComponent {
   //Inyectamos el servicio

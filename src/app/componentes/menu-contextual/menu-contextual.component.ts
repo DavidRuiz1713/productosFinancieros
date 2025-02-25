@@ -19,7 +19,7 @@ import { ProductosService } from '../../core/servicios/productos.service';
   standalone: true,
   imports: [CommonModule, ModalComponent, RouterLink, HttpClientModule],
   templateUrl: './menu-contextual.component.html',
-  styleUrl: './menu-contextual.component.less',
+  styleUrls: ['./menu-contextual.component.less'],
 })
 export class MenuContextualComponent {
   public isMenuOpen = false;

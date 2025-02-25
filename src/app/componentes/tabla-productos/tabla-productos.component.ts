@@ -26,7 +26,7 @@ import { LetraInicialPipe } from '../../pipes/letra-inicial.pipe';
     ValidarImagenPipe,
   ],
   templateUrl: './tabla-productos.component.html',
-  styleUrl: './tabla-productos.component.less',
+  styleUrls: ['./tabla-productos.component.less'],
 })
 export class TablaProductosComponent {
   //variables

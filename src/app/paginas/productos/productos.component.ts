@@ -9,7 +9,7 @@ import { ProductosService } from '../../core/servicios/productos.service';
   standalone: true,
   imports: [CommonModule, RouterOutlet, componentesProductos],
   templateUrl: './productos.component.html',
-  styleUrl: './productos.component.less',
+  styleUrls: ['./productos.component.less'],
 })
 export default class ProductosComponent {
   constructor(private router: Router) {}

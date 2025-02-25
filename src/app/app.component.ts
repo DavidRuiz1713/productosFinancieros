@@ -8,7 +8,7 @@ import AgregarProductosComponent from './paginas/agregar-productos/agregar-produ
   standalone: true,
   imports: [RouterOutlet, ProductosComponent, AgregarProductosComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.less',
+  styleUrls: ['./app.component.less'],
 })
 export class AppComponent {
   title = 'administracion-financiera';

@@ -9,7 +9,7 @@ import { NotificacionComponent } from '../notificacion/notificacion.component';
   standalone: true,
   imports: [CommonModule, HttpClientModule, NotificacionComponent],
   templateUrl: './modal.component.html',
-  styleUrl: './modal.component.less',
+  styleUrls: ['./modal.component.less'],
 })
 export class ModalComponent {
   //Inyectamos el servicio

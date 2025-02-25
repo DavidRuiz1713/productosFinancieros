@@ -8,7 +8,7 @@ import { FormularioComponent } from '../../componentes/formulario/formulario.com
   standalone: true,
   imports: [CommonModule, RouterOutlet, FormularioComponent],
   templateUrl: './agregar-productos.component.html',
-  styleUrl: './agregar-productos.component.less',
+  styleUrls: ['./agregar-productos.component.less'],
 })
 export default class AgregarProductosComponent {
   constructor(private router: Router) {}
