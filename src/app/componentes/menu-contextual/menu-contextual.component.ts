@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -20,6 +21,7 @@ import { ProductosService } from '../../core/servicios/productos.service';
   imports: [CommonModule, ModalComponent, RouterLink, HttpClientModule],
   templateUrl: './menu-contextual.component.html',
   styleUrls: ['./menu-contextual.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuContextualComponent {
   public isMenuOpen = false;

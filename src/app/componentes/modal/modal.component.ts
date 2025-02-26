@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+  ChangeDetectorRef, // Importamos ChangeDetectorRef
+} from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductosService } from '../../core/servicios/productos.service';
 import { NotificacionComponent } from '../notificacion/notificacion.component';
@@ -10,11 +16,15 @@ import { NotificacionComponent } from '../notificacion/notificacion.component';
   imports: [CommonModule, HttpClientModule, NotificacionComponent],
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ModalComponent {
-  //Inyectamos el servicio
+  // Inyectamos el servicio
   private productosService = inject(ProductosService);
+  private detectarCambios = inject(ChangeDetectorRef);
+
   modalVisible: boolean = false;
+
   // Datos obtenidos de cada producto
   @Input() id: string = '';
   public errorMessage: string = '';
@@ -25,19 +35,26 @@ export class ModalComponent {
     this.productosService.error$.subscribe((error) => {
       if (error) {
         this.errorMessage = error;
+        this.detectarCambios.markForCheck(); // Notificamos a Angular que verifique los cambios
       }
     });
   }
+
   mostrarModal() {
     this.modalVisible = true;
+    this.detectarCambios.markForCheck();
   }
+
   ocultarModal() {
     this.modalVisible = false;
     this.productosService.limpiarMensaje();
+    this.detectarCambios.markForCheck();
   }
+
   eliminarProducto() {
     this.productosService.eliminarProducto(this.id).subscribe((response) => {
       this.modalVisible = false;
+      this.detectarCambios.markForCheck();
     });
   }
 }

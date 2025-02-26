@@ -1,4 +1,9 @@
-import { Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BuscadorComponent } from '../buscador/buscador.component';
 import { ProductosInterface } from '../../core/interface/productos-interface';
@@ -27,6 +32,7 @@ import { LetraInicialPipe } from '../../pipes/letra-inicial.pipe';
   ],
   templateUrl: './tabla-productos.component.html',
   styleUrls: ['./tabla-productos.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush, // OnPush habilitado
 })
 export class TablaProductosComponent {
   //variables
@@ -54,6 +60,7 @@ export class TablaProductosComponent {
     private datosSeleccionadosService: DatosSeleccionadosService,
     private productosService: ProductosService,
     private router: Router,
+    private detectarCambios: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -64,6 +71,7 @@ export class TablaProductosComponent {
       if (accion != null) {
         this.mostrarYOcultarNotificacion();
       }
+      this.detectarCambios.markForCheck(); // Notificamos a Angular que verifique los cambios
     });
   }
 
@@ -73,6 +81,7 @@ export class TablaProductosComponent {
       this.productosService.obtenerTodosProductos().subscribe((productos) => {
         this.productos = productos;
         this.mostrarDatos = true;
+        this.detectarCambios.markForCheck(); // Notificamos a Angular que verifique los cambios
       });
     }, 3000);
   }
