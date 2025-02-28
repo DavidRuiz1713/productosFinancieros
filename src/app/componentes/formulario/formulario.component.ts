@@ -1,4 +1,10 @@
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  inject,
+  Output,
+} from '@angular/core';
 import { ProductosService } from '../../core/servicios/productos.service';
 import { CommonModule } from '@angular/common';
 import {
@@ -14,9 +20,10 @@ import { NotificacionComponent } from '../notificacion/notificacion.component';
 @Component({
   selector: 'app-formulario',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NotificacionComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './formulario.component.html',
   styleUrls: ['./formulario.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormularioComponent {
   //Inyectamos el servicio
@@ -25,6 +32,9 @@ export class FormularioComponent {
   public productoEditar: any = {};
   public productoExiste: boolean | null = null;
   public errorMessage: string | null = null;
+  @Output() estadoFormulario = new EventEmitter<boolean>(); // Evento para comunicar el estado
+  public guardRegresar: boolean = false;
+  public guardarEditarProducto: boolean = false;
 
   get id() {
     return this.formularioProducto.get('id') as FormControl;
@@ -73,6 +83,9 @@ export class FormularioComponent {
   ) {}
 
   ngOnInit(): void {
+    this.formularioProducto.valueChanges.subscribe(() => {
+      this.hasChanges(); // Llamar a hasChanges cuando cambian los valores
+    });
     this.date_revision.disable();
     // Escuchar cambios en date_release y actualizar date_revision
     this.date_release.valueChanges.subscribe((value) => {
@@ -113,6 +126,7 @@ export class FormularioComponent {
   }
 
   agregarProducto(accion: string): void {
+    this.guardarEditarProducto = true;
     let procedimiento = accion;
     if (procedimiento === 'Agregar') {
       this.date_revision.enable();
@@ -165,6 +179,14 @@ export class FormularioComponent {
   }
 
   hasChanges() {
-    return this.formularioProducto.pristine;
+    if (this.guardarEditarProducto) {
+      this.guardRegresar = false;
+      this.estadoFormulario.emit(this.guardRegresar);
+      return this.formularioProducto.pristine;
+    } else {
+      this.guardRegresar = this.formularioProducto.dirty;
+      this.estadoFormulario.emit(this.guardRegresar);
+      return this.formularioProducto.pristine;
+    }
   }
 }

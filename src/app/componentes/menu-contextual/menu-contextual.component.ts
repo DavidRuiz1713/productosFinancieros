@@ -18,7 +18,7 @@ import { ProductosService } from '../../core/servicios/productos.service';
 @Component({
   selector: 'app-menu-contextual',
   standalone: true,
-  imports: [CommonModule, ModalComponent, RouterLink, HttpClientModule],
+  imports: [CommonModule, ModalComponent, HttpClientModule],
   templateUrl: './menu-contextual.component.html',
   styleUrls: ['./menu-contextual.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +33,7 @@ export class MenuContextualComponent {
     private productosService: ProductosService,
     private elRef: ElementRef,
   ) {}
-  //Datos quemados para el head de la tabla
+  //Datos a enviar para la edición
   @Output() onEdit = new EventEmitter<void>();
   // Datos obtenidos de cada producto
   @Input() producto: any;

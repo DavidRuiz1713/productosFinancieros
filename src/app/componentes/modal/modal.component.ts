@@ -35,7 +35,7 @@ export class ModalComponent {
     this.productosService.error$.subscribe((error) => {
       if (error) {
         this.errorMessage = error;
-        this.detectarCambios.markForCheck(); // Notificamos a Angular que verifique los cambios
+        this.detectarCambios.markForCheck();
       }
     });
   }
@@ -52,9 +52,14 @@ export class ModalComponent {
   }
 
   eliminarProducto() {
-    this.productosService.eliminarProducto(this.id).subscribe((response) => {
-      this.modalVisible = false;
-      this.detectarCambios.markForCheck();
+    this.productosService.eliminarProducto(this.id).subscribe({
+      next: (response) => {
+        this.modalVisible = false;
+        this.detectarCambios.markForCheck();
+      },
+      error: (error) => {
+        this.ocultarModal();
+      },
     });
   }
 }

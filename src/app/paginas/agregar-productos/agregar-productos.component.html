@@ -7,5 +7,7 @@ para agregar o editar productos -->
 </h1>
 
 <div class="g-flex g-justify-content-center">
-  <app-formulario></app-formulario>
+  <app-formulario
+    (estadoFormulario)="actualizarEstadoFormulario($event)"
+  ></app-formulario>
 </div>
