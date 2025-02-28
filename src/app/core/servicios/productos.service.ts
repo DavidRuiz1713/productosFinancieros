@@ -49,11 +49,6 @@ export class ProductosService {
       map((productos: ProductosInterface[]) =>
         productos.map((producto) => ProductosMapper.map(producto)),
       ),
-      catchError((error) => {
-        const errorMessage = 'Error al obtener productos';
-        this.errorSubject.next(errorMessage);
-        return of([]);
-      }),
     );
   }
 
@@ -71,11 +66,6 @@ export class ProductosService {
           productoId: producto.id,
         });
         return response;
-      }),
-      catchError((error) => {
-        const errorMessage = error.error;
-        this.errorSubject.next(errorMessage);
-        return of();
       }),
     );
   }
@@ -95,11 +85,6 @@ export class ProductosService {
         });
         return response;
       }),
-      catchError((error) => {
-        const errorMessage = error.error;
-        this.errorSubject.next(errorMessage);
-        return of();
-      }),
     );
   }
 
@@ -118,11 +103,6 @@ export class ProductosService {
           mensaje: response.message,
           productoId: id,
         });
-      }),
-      catchError((error) => {
-        const errorMessage = error.error;
-        this.errorSubject.next(errorMessage.message);
-        return of();
       }),
     );
   }

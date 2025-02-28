@@ -4,10 +4,9 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
-  Input,
-  OnChanges,
-  SimpleChanges,
+  OnInit,
 } from '@angular/core';
+import { NotificacionesService } from '../../core/servicios/notificaciones.servicio';
 
 @Component({
   selector: 'app-notificacion',
@@ -17,25 +16,29 @@ import {
   styleUrls: ['./notificacion.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotificacionComponent implements OnChanges {
-  @Input() texto: string = '';
-  @Input() tipo: string = '';
+export class NotificacionComponent implements OnInit {
+  public texto: string = '';
+  public tipo: string = '';
   public mostrarNotificacion: boolean = false;
   public ocultarNotificacion: boolean = false;
   private detectarCambios = inject(ChangeDetectorRef);
+  private notificacionesService = inject(NotificacionesService); // Inyecta el servicio
 
-  ngOnChanges(changes: SimpleChanges) {
-    // Si cambia el valor de 'texto' y no está vacío
-    if (changes['texto'] && changes['texto'].currentValue) {
+  ngOnInit() {
+    // Suscribirse a las notificaciones
+    this.notificacionesService.notificacion$.subscribe((notificacion) => {
+      this.texto = notificacion.texto;
+      this.tipo = notificacion.tipo;
       this.mostrarYOcultarNotificacion();
-    }
+      this.detectarCambios.markForCheck();
+    });
   }
 
   mostrarYOcultarNotificacion() {
     this.mostrarNotificacion = true;
     this.ocultarNotificacion = false;
 
-    if (this.tipo != 'error') {
+    if (this.tipo != ' ') {
       setTimeout(() => {
         this.ocultarNotificacion = true;
         this.detectarCambios.markForCheck();
